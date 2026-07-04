@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Interview Generator | AI Resume Screener</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/themes.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/animations.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ====================================== -->
+<!-- Navbar -->
+<!-- ====================================== -->
+
+{% include 'components/navbar.html' %}
+
+<!-- ====================================== -->
+<!-- Sidebar -->
+<!-- ====================================== -->
+
+{% include 'components/sidebar.html' %}
+
+<!-- ====================================== -->
+<!-- Loader -->
+<!-- ====================================== -->
+
+{% include 'components/loader.html' %}
+
+<!-- ====================================== -->
+<!-- Main Content -->
+<!-- ====================================== -->
+
+<main class="main-content">
+
+<div class="container">
+
+<!-- ====================================== -->
+<!-- Header -->
+<!-- ====================================== -->
+
+<div class="dashboard-header fade-down">
+
+    <div class="dashboard-title">
+
+        <h1>
+
+            AI Interview Question Generator
+
+        </h1>
+
+        <p>
+
+            Generate personalized interview questions based on candidate skills, education, and job description.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Interview Form -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-user-graduate"></i>
+
+        Candidate Information
+
+    </h2>
+
+    <br>
+
+    <form id="interviewForm">
+
+        <div class="form-group">
+
+            <label>
+
+                Skills (Comma Separated)
+
+            </label>
+
+            <input
+
+                type="text"
+
+                id="skills"
+
+                class="form-control"
+
+                placeholder="Python, Flask, SQL, Machine Learning"
+
+                required>
+
+        </div>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+
+                Education
+
+            </label>
+
+            <input
+
+                type="text"
+
+                id="education"
+
+                class="form-control"
+
+                placeholder="B.Tech Computer Science"
+
+                required>
+
+        </div>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+
+                Job Description
+
+            </label>
+
+            <textarea
+
+                id="jobDescription"
+
+                rows="8"
+
+                class="form-control"
+
+                placeholder="Paste Job Description..."
+
+                required>
+
+            </textarea>
+
+        </div>
+
+        <br>
+
+        <button
+
+            type="submit"
+
+            class="btn btn-primary"
+
+            id="generateInterview">
+
+            <i class="fa-solid fa-robot"></i>
+
+            Generate Questions
+
+        </button>
+
+        <button
+
+            type="reset"
+
+            class="btn btn-outline">
+
+            Reset
+
+        </button>
+
+    </form>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Statistics -->
+<!-- ====================================== -->
+
+<div class="stats-grid mt-5">
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-list-check"></i>
+
+        </div>
+
+        <div
+            id="totalQuestions"
+            class="stat-value">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            Questions
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-code"></i>
+
+        </div>
+
+        <div
+            id="technicalCount"
+            class="stat-value">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            Technical
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-users"></i>
+
+        </div>
+
+        <div
+            id="behavioralCount"
+            class="stat-value">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            Behavioral
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-user-tie"></i>
+
+        </div>
+
+        <div
+            id="hrCount"
+            class="stat-value">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            HR
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Loading -->
+<!-- ====================================== -->
+
+<div
+
+    id="interviewLoading"
+
+    class="card mt-5 hidden">
+
+    <div class="text-center">
+
+        <div class="loader"></div>
+
+        <br>
+
+        <h2>
+
+            AI is Generating Interview Questions...
+
+        </h2>
+
+        <p>
+
+            Please wait a few seconds.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Results Start Here -->
+<!-- ====================================== -->
+
+<div id="interviewResults" class="hidden">
+
+<!-- ====================================== -->
+<!-- AI Generated Interview Questions -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-robot"></i>
+
+        AI Generated Interview Questions
+
+    </h2>
+
+    <br>
+
+    <div id="generatedQuestions">
+
+        <div class="alert alert-info">
+
+            Click <strong>Generate Questions</strong> to create interview questions.
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Technical Questions -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-laptop-code"></i>
+
+        Technical Questions
+
+    </h2>
+
+    <br>
+
+    <ol id="technicalQuestions">
+
+        <li>
+
+            Questions will appear here.
+
+        </li>
+
+    </ol>
+
+</div>
+
+<!-- ====================================== -->
+<!-- HR Questions -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-user-tie"></i>
+
+        HR Interview Questions
+
+    </h2>
+
+    <br>
+
+    <ol id="hrQuestions">
+
+        <li>
+
+            Questions will appear here.
+
+        </li>
+
+    </ol>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Behavioral Questions -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-users"></i>
+
+        Behavioral Questions
+
+    </h2>
+
+    <br>
+
+    <ol id="behaviorQuestions">
+
+        <li>
+
+            Questions will appear here.
+
+        </li>
+
+    </ol>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Scenario Based Questions -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-lightbulb"></i>
+
+        Scenario Based Questions
+
+    </h2>
+
+    <br>
+
+    <ol id="scenarioQuestions">
+
+        <li>
+
+            Questions will appear here.
+
+        </li>
+
+    </ol>
+
+</div>
+
+<!-- ====================================== -->
+<!-- AI Interview Summary -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Interview Summary
+
+    </h2>
+
+    <br>
+
+    <div
+
+        id="interviewSummary"
+
+        class="alert alert-success">
+
+        AI interview summary will appear here.
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Candidate Evaluation -->
+<!-- ====================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Technical Level
+
+        </h3>
+
+        <h1 id="technicalLevel">
+
+            --
+
+        </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Communication
+
+        </h3>
+
+        <h1 id="communicationLevel">
+
+            --
+
+        </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Overall Difficulty
+
+        </h3>
+
+        <h1 id="difficultyLevel">
+
+            --
+
+        </h1>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Interview Tips -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Interview Preparation Tips
+
+    </h2>
+
+    <br>
+
+    <ul id="interviewTips">
+
+        <li>
+
+            Review your resume before attending the interview.
+
+        </li>
+
+        <li>
+
+            Practice answering technical questions confidently.
+
+        </li>
+
+        <li>
+
+            Be prepared to explain your projects clearly.
+
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Mock Interview Checklist -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Mock Interview Checklist
+
+    </h2>
+
+    <br>
+
+    <div class="checklist">
+
+        <label>
+
+            <input type="checkbox">
+
+            Resume Reviewed
+
+        </label>
+
+        <br><br>
+
+        <label>
+
+            <input type="checkbox">
+
+            Technical Concepts Revised
+
+        </label>
+
+        <br><br>
+
+        <label>
+
+            <input type="checkbox">
+
+            HR Questions Practiced
+
+        </label>
+
+        <br><br>
+
+        <label>
+
+            <input type="checkbox">
+
+            Projects Explained
+
+        </label>
+
+        <br><br>
+
+        <label>
+
+            <input type="checkbox">
+
+            Company Research Completed
+
+        </label>
+
+    </div>
+
+</div>
+
+
+<!-- ====================================== -->
+<!-- AI Performance Insights -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        Interview Performance Insights
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <h3>
+
+                Technical Score
+
+            </h3>
+
+            <h1 id="technicalScore">
+
+                0%
+
+            </h1>
+
+            <div class="progress mt-3">
+
+                <div
+
+                    id="technicalProgress"
+
+                    class="progress-bar"
+
+                    style="width:0%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h3>
+
+                HR Readiness
+
+            </h3>
+
+            <h1 id="hrScore">
+
+                0%
+
+            </h1>
+
+            <div class="progress mt-3">
+
+                <div
+
+                    id="hrProgress"
+
+                    class="progress-bar"
+
+                    style="width:0%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h3>
+
+                Communication
+
+            </h3>
+
+            <h1 id="communicationScore">
+
+                0%
+
+            </h1>
+
+            <div class="progress mt-3">
+
+                <div
+
+                    id="communicationProgress"
+
+                    class="progress-bar"
+
+                    style="width:0%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- AI Recommendations -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-lightbulb"></i>
+
+        AI Recommendations
+
+    </h2>
+
+    <br>
+
+    <ul id="aiRecommendations">
+
+        <li>
+
+            Generate interview questions to receive AI recommendations.
+
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Question Categories -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Question Categories
+
+    </h2>
+
+    <br>
+
+    <canvas
+
+        id="questionChart"
+
+        height="120">
+
+    </canvas>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Interview Timeline -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-timeline"></i>
+
+        Interview Timeline
+
+    </h2>
+
+    <br>
+
+    <ul
+
+        id="interviewTimeline"
+
+        class="timeline">
+
+        <li>
+
+            Interview preparation timeline will appear here.
+
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Interview Difficulty -->
+<!-- ====================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Easy
+
+        </h3>
+
+        <h1 id="easyQuestions">
+
+            0
+
+        </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Medium
+
+        </h3>
+
+        <h1 id="mediumQuestions">
+
+            0
+
+        </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Hard
+
+        </h3>
+
+        <h1 id="hardQuestions">
+
+            0
+
+        </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Total
+
+        </h3>
+
+        <h1 id="overallQuestions">
+
+            0
+
+        </h1>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Export Interview Questions -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Export Questions
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <button
+
+            id="downloadInterviewPDF"
+
+            class="btn btn-danger">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            Download PDF
+
+        </button>
+
+        <button
+
+            id="printInterview"
+
+            class="btn btn-warning">
+
+            <i class="fa-solid fa-print"></i>
+
+            Print
+
+        </button>
+
+        <button
+
+            id="copyQuestions"
+
+            class="btn btn-success">
+
+            <i class="fa-solid fa-copy"></i>
+
+            Copy Questions
+
+        </button>
+
+        <button
+
+            id="refreshInterview"
+
+            class="btn btn-info">
+
+            <i class="fa-solid fa-rotate"></i>
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Quick Navigation -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Quick Navigation
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <a href="/dashboard"
+
+           class="btn btn-primary">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            Dashboard
+
+        </a>
+
+        <a href="/analyze"
+
+           class="btn btn-success">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Analyze Resume
+
+        </a>
+
+        <a href="/ranking"
+
+           class="btn btn-warning">
+
+            <i class="fa-solid fa-ranking-star"></i>
+
+            Resume Ranking
+
+        </a>
+
+        <a href="/history"
+
+           class="btn btn-info">
+
+            <i class="fa-solid fa-clock"></i>
+
+            History
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- AI Final Evaluation -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Final Interview Evaluation
+
+    </h2>
+
+    <br>
+
+    <div
+
+        id="interviewEvaluation"
+
+        class="alert alert-success">
+
+        AI interview evaluation will appear here after generating questions.
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- System Status -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-server"></i>
+
+        Interview AI System Status
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                Interview Generator
+
+            </h4>
+
+            <span class="badge badge-success">
+
+                Active
+
+            </span>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                AI Question Engine
+
+            </h4>
+
+            <span class="badge badge-success">
+
+                Running
+
+            </span>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                Skill Analyzer
+
+            </h4>
+
+            <span class="badge badge-success">
+
+                Online
+
+            </span>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                Recommendation Engine
+
+            </h4>
+
+            <span class="badge badge-success">
+
+                Ready
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Interview Summary -->
+<!-- ====================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        AI Interview Summary
+
+    </h2>
+
+    <br>
+
+    <div
+
+        id="finalSummary"
+
+        class="alert alert-primary">
+
+        Generate interview questions to receive a complete AI interview summary.
+
+    </div>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Footer -->
+<!-- ====================================== -->
+
+</div>
+
+</main>
+
+{% include 'components/footer.html' %}
+
+<!-- ====================================== -->
+<!-- Chart.js -->
+<!-- ====================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- ====================================== -->
+<!-- JavaScript Files -->
+<!-- ====================================== -->
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/interview.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<!-- ====================================== -->
+<!-- Auto Initialization -->
+<!-- ====================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof initializeInterview === "function") {
+
+        initializeInterview();
+
+    }
+
+    document.getElementById("refreshInterview")?.addEventListener("click", function () {
+
+        if (typeof initializeInterview === "function") {
+
+            initializeInterview();
+
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>

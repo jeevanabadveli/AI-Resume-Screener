@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Resume History | AI Resume Screener</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/themes.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/animations.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ===================================== -->
+<!-- Navbar -->
+<!-- ===================================== -->
+
+{% include 'components/navbar.html' %}
+
+<!-- ===================================== -->
+<!-- Sidebar -->
+<!-- ===================================== -->
+
+{% include 'components/sidebar.html' %}
+
+<!-- ===================================== -->
+<!-- Loader -->
+<!-- ===================================== -->
+
+{% include 'components/loader.html' %}
+
+<!-- ===================================== -->
+<!-- Main Content -->
+<!-- ===================================== -->
+
+<main class="main-content">
+
+<div class="container">
+
+<!-- ===================================== -->
+<!-- Page Header -->
+<!-- ===================================== -->
+
+<div class="dashboard-header fade-down">
+
+    <div class="dashboard-title">
+
+        <h1>
+
+            Resume History
+
+        </h1>
+
+        <p>
+
+            View all previously analyzed resumes and AI screening results.
+
+        </p>
+
+    </div>
+
+    <div>
+
+        <a href="/analyze"
+           class="btn btn-primary">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Analyze New Resume
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Statistics -->
+<!-- ===================================== -->
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+        </div>
+
+        <div
+            id="historyTotal"
+            class="stat-value">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            Total Resumes
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-user-check"></i>
+
+        </div>
+
+        <div
+            id="strongMatches"
+            class="stat-value">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            Strong Matches
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+        </div>
+
+        <div
+            id="averageHistoryATS"
+            class="stat-value">
+
+            0%
+
+        </div>
+
+        <div class="stat-label">
+
+            Average ATS
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+        </div>
+
+        <div
+            id="latestAnalysisDate"
+            class="stat-value">
+
+            --
+
+        </div>
+
+        <div class="stat-label">
+
+            Latest Analysis
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Search & Filter -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Search Resume History
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <div>
+
+            <label>
+
+                Search Candidate
+
+            </label>
+
+            <input
+
+                type="text"
+
+                id="searchCandidate"
+
+                class="form-control"
+
+                placeholder="Enter candidate name">
+
+        </div>
+
+        <div>
+
+            <label>
+
+                Recommendation
+
+            </label>
+
+            <select
+                id="statusFilter"
+                class="form-control">
+
+                <option value="">
+
+                    All
+
+                </option>
+
+                <option value="Strong Match">
+
+                    Strong Match
+
+                </option>
+
+                <option value="Moderate Match">
+
+                    Moderate Match
+
+                </option>
+
+                <option value="Needs Improvement">
+
+                    Needs Improvement
+
+                </option>
+
+            </select>
+
+        </div>
+
+        <div>
+
+            <label>
+
+                Sort By
+
+            </label>
+
+            <select
+                id="sortHistory"
+                class="form-control">
+
+                <option value="latest">
+
+                    Latest First
+
+                </option>
+
+                <option value="oldest">
+
+                    Oldest First
+
+                </option>
+
+                <option value="ats">
+
+                    Highest ATS
+
+                </option>
+
+                <option value="match">
+
+                    Highest Match
+
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Quick Actions -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Quick Actions
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <a href="/dashboard"
+           class="btn btn-outline">
+
+            <i class="fa-solid fa-chart-column"></i>
+
+            Dashboard
+
+        </a>
+
+        <a href="/ranking"
+           class="btn btn-success">
+
+            <i class="fa-solid fa-ranking-star"></i>
+
+            Resume Ranking
+
+        </a>
+
+        <a href="/report"
+           class="btn btn-warning">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            Reports
+
+        </a>
+
+        <button
+            id="refreshHistory"
+            class="btn btn-info">
+
+            <i class="fa-solid fa-rotate"></i>
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- Resume History Table -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+        Resume Analysis History
+
+    </h2>
+
+    <br>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Candidate</th>
+
+                    <th>ATS</th>
+
+                    <th>Match</th>
+
+                    <th>Status</th>
+
+                    <th>Date</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="historyTableBody">
+
+                <tr>
+
+                    <td colspan="7" class="text-center">
+
+                        Loading history...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Candidate Details -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-user"></i>
+
+        Selected Candidate
+
+    </h2>
+
+    <br>
+
+    <div class="profile-card">
+
+        <div
+            class="profile-avatar"
+            id="historyAvatar">
+
+            AI
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2 id="historyCandidate">
+
+                Select a Candidate
+
+            </h2>
+
+            <p id="historyStatus">
+
+                Resume analysis information will appear here.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Score Cards -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            ATS Score
+
+        </h3>
+
+        <h1 id="historyATS">
+
+            0%
+
+        </h1>
+
+        <div class="progress mt-3">
+
+            <div
+                id="historyATSBar"
+                class="progress-bar"
+                style="width:0%;">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Match Score
+
+        </h3>
+
+        <h1 id="historyMatch">
+
+            0%
+
+        </h1>
+
+        <div class="progress mt-3">
+
+            <div
+                id="historyMatchBar"
+                class="progress-bar"
+                style="width:0%;">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Recommendation
+
+        </h3>
+
+        <h2 id="historyRecommendation">
+
+            --
+
+        </h2>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Analysis Summary -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Analysis Summary
+
+    </h2>
+
+    <br>
+
+    <div
+        id="historySummary"
+        class="alert alert-info">
+
+        Select a candidate to view the AI summary.
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Empty State -->
+<!-- ===================================== -->
+
+<div
+    id="emptyHistory"
+    class="card mt-5 hidden">
+
+    <div class="text-center">
+
+        <i class="fa-solid fa-folder-open fa-4x mb-4"></i>
+
+        <h2>
+
+            No Resume History
+
+        </h2>
+
+        <p>
+
+            Analyze a resume to create your first history record.
+
+        </p>
+
+        <br>
+
+        <a
+            href="/analyze"
+            class="btn btn-primary">
+
+            Analyze Resume
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Pagination -->
+<!-- ===================================== -->
+
+<div class="pagination mt-5">
+
+    <button
+        id="prevPage"
+        class="btn btn-outline">
+
+        <i class="fa-solid fa-chevron-left"></i>
+
+        Previous
+
+    </button>
+
+    <span
+        id="pageNumber"
+        class="page-number">
+
+        Page 1
+
+    </span>
+
+    <button
+        id="nextPage"
+        class="btn btn-outline">
+
+        Next
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+    </button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Export Options -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Export History
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <button
+            id="exportCSV"
+            class="btn btn-success">
+
+            <i class="fa-solid fa-file-csv"></i>
+
+            Export CSV
+
+        </button>
+
+        <button
+            id="exportPDF"
+            class="btn btn-danger">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            Export PDF
+
+        </button>
+
+        <button
+            id="printHistory"
+            class="btn btn-warning">
+
+            <i class="fa-solid fa-print"></i>
+
+            Print
+
+        </button>
+
+        <button
+            id="clearFilters"
+            class="btn btn-info">
+
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+
+            Clear Filters
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- Activity Timeline -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-timeline"></i>
+
+        Recent Activity
+
+    </h2>
+
+    <br>
+
+    <ul class="timeline" id="activityTimeline">
+
+        <li>
+
+            Waiting for activity...
+
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- ===================================== -->
+<!-- History Insights -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Highest ATS
+
+        </h3>
+
+        <h1 id="highestATS">
+
+            0%
+
+        </h1>
+
+        <p>
+
+            Best ATS Score
+
+        </p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Highest Match
+
+        </h3>
+
+        <h1 id="highestMatch">
+
+            0%
+
+        </h1>
+
+        <p>
+
+            Best Match Score
+
+        </p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Latest Candidate
+
+        </h3>
+
+        <h2 id="latestCandidateName">
+
+            --
+
+        </h2>
+
+        <p>
+
+            Most Recent Analysis
+
+        </p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Success Rate
+
+        </h3>
+
+        <h1 id="historySuccessRate">
+
+            0%
+
+        </h1>
+
+        <p>
+
+            Strong Match Percentage
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Quick Navigation -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Quick Navigation
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <a href="/dashboard"
+           class="btn btn-primary">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            Dashboard
+
+        </a>
+
+        <a href="/analyze"
+           class="btn btn-success">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Analyze Resume
+
+        </a>
+
+        <a href="/ranking"
+           class="btn btn-warning">
+
+            <i class="fa-solid fa-ranking-star"></i>
+
+            Resume Ranking
+
+        </a>
+
+        <a href="/report"
+           class="btn btn-danger">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            Reports
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Footer -->
+<!-- ===================================== -->
+
+</div>
+
+</main>
+
+{% include 'components/footer.html' %}
+
+<!-- ===================================== -->
+<!-- JavaScript -->
+<!-- ===================================== -->
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+
+<!-- ===================================== -->
+<!-- Auto Refresh -->
+<!-- ===================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof loadHistory === "function") {
+        loadHistory();
+    }
+
+    document.getElementById("refreshHistory")?.addEventListener("click", function () {
+
+        if (typeof loadHistory === "function") {
+            loadHistory();
+        }
+
+    });
+
+    setInterval(function () {
+
+        if (typeof loadHistory === "function") {
+            loadHistory();
+        }
+
+    }, 30000);
+
+});
+
+</script>
+
+</body>
+
+</html>

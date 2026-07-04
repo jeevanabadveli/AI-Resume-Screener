@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Screener</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/themes.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/animations.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ================= Navbar ================= -->
+
+{% include 'components/navbar.html' %}
+
+<!-- ================= Sidebar ================= -->
+
+{% include 'components/sidebar.html' %}
+
+<!-- ================= Loader ================= -->
+
+{% include 'components/loader.html' %}
+
+<!-- ================= Main ================= -->
+
+<main class="main-content">
+
+<section class="hero">
+
+<div class="hero-left fade-left">
+
+<h1>
+
+AI Resume Screener
+
+</h1>
+
+<p>
+
+Analyze resumes using Artificial Intelligence.
+
+Get ATS Score, Resume Match Score,
+Skill Gap Analysis, Resume Ranking,
+Interview Questions and Download Reports.
+
+</p>
+
+<div class="mt-4">
+
+<a href="/analyze" class="btn btn-primary">
+
+<i class="fa-solid fa-file-arrow-up"></i>
+
+Analyze Resume
+
+</a>
+
+<a href="/dashboard"
+class="btn btn-outline">
+
+Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+<div class="hero-right fade-right">
+
+<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=700"
+
+class="hero-image"
+
+alt="AI Resume">
+
+</div>
+
+</section>
+
+<!-- ================= Statistics ================= -->
+
+<section class="section mt-5">
+
+<div class="section-title">
+
+<h2>
+
+Platform Features
+
+</h2>
+
+<p>
+
+Everything required for Resume Screening
+
+</p>
+
+</div>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-file-circle-check"></i>
+
+</div>
+
+<div class="stat-value">
+
+ATS
+
+</div>
+
+<div class="stat-label">
+
+ATS Compatibility Check
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-brain"></i>
+
+</div>
+
+<div class="stat-value">
+
+AI
+
+</div>
+
+<div class="stat-label">
+
+AI Resume Analysis
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-ranking-star"></i>
+
+</div>
+
+<div class="stat-value">
+
+Rank
+
+</div>
+
+<div class="stat-label">
+
+Resume Ranking
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-comments"></i>
+
+</div>
+
+<div class="stat-value">
+
+HR
+
+</div>
+
+<div class="stat-label">
+
+Interview Questions
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= Features ================= -->
+
+<section class="section mt-5">
+
+<div class="section-title">
+
+<h2>
+
+Why Choose AI Resume Screener?
+
+</h2>
+
+</div>
+
+<div class="feature-grid">
+
+<div class="feature-card">
+
+<i class="fa-solid fa-magnifying-glass-chart fa-3x"></i>
+
+<h3>
+
+Resume Analysis
+
+</h3>
+
+<p>
+
+Extracts Skills, Education and Experience
+using Artificial Intelligence.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-chart-line fa-3x"></i>
+
+<h3>
+
+ATS Score
+
+</h3>
+
+<p>
+
+Checks resume formatting and ATS
+compatibility.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-user-check fa-3x"></i>
+
+<h3>
+
+Skill Matching
+
+</h3>
+
+<p>
+
+Compares Resume against
+Job Description.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-shield-halved fa-3x"></i>
+
+<h3>
+
+Bias Detection
+
+</h3>
+
+<p>
+
+Detects biased or suspicious
+resume content.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-file-pdf fa-3x"></i>
+
+<h3>
+
+PDF Reports
+
+</h3>
+
+<p>
+
+Generate downloadable
+professional reports.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-trophy fa-3x"></i>
+
+<h3>
+
+Resume Ranking
+
+</h3>
+
+<p>
+
+Compare multiple resumes and
+find the best candidate.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= Workflow ================= -->
+
+<section class="section mt-5">
+
+<div class="section-title">
+
+<h2>
+
+How It Works
+
+</h2>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="card text-center">
+
+<h1>1️⃣</h1>
+
+<h3>
+
+Upload Resume
+
+</h3>
+
+<p>
+
+Upload PDF Resume.
+
+</p>
+
+</div>
+
+<div class="card text-center">
+
+<h1>2️⃣</h1>
+
+<h3>
+
+Enter Job Description
+
+</h3>
+
+<p>
+
+Paste Job Description.
+
+</p>
+
+</div>
+
+<div class="card text-center">
+
+<h1>3️⃣</h1>
+
+<h3>
+
+AI Analysis
+
+</h3>
+
+<p>
+
+ATS, Skills,
+Match Score,
+Confidence,
+Bias Detection.
+
+</p>
+
+</div>
+
+<div class="card text-center">
+
+<h1>4️⃣</h1>
+
+<h3>
+
+Download Report
+
+</h3>
+
+<p>
+
+Interview Questions
+and PDF Report.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CTA ================= -->
+
+<section class="section mt-5">
+
+<div class="card text-center gradient-blue">
+
+<h2>
+
+Ready to Analyze Your Resume?
+
+</h2>
+
+<p>
+
+Upload your resume and receive
+AI-powered insights within seconds.
+
+</p>
+
+<br>
+
+<a href="/analyze"
+
+class="btn btn-light">
+
+Start Analysis
+
+</a>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- ================= Footer ================= -->
+
+{% include 'components/footer.html' %}
+
+<!-- ================= JS ================= -->
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+
+</body>
+
+</html>

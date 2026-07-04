@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | AI Resume Screener</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/themes.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/animations.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ===================================== -->
+<!-- Navbar -->
+<!-- ===================================== -->
+
+{% include 'components/navbar.html' %}
+
+<!-- ===================================== -->
+<!-- Sidebar -->
+<!-- ===================================== -->
+
+{% include 'components/sidebar.html' %}
+
+<!-- ===================================== -->
+<!-- Loader -->
+<!-- ===================================== -->
+
+{% include 'components/loader.html' %}
+
+<!-- ===================================== -->
+<!-- Main Content -->
+<!-- ===================================== -->
+
+<main class="main-content">
+
+<div class="container">
+
+<!-- ===================================== -->
+<!-- Dashboard Header -->
+<!-- ===================================== -->
+
+<div class="dashboard-header fade-down">
+
+    <div class="dashboard-title">
+
+        <h1>
+
+            Dashboard
+
+        </h1>
+
+        <p>
+
+            AI Resume Screener Analytics & Statistics
+
+        </p>
+
+    </div>
+
+    <div>
+
+        <a href="/analyze"
+           class="btn btn-primary">
+
+            <i class="fa-solid fa-file-arrow-up"></i>
+
+            Analyze Resume
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Statistics Cards -->
+<!-- ===================================== -->
+
+<div class="stats-grid">
+
+    <!-- Total Resumes -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+        </div>
+
+        <div
+            class="stat-value"
+            id="totalResumes">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            Total Resumes
+
+        </div>
+
+    </div>
+
+    <!-- Average ATS -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-chart-column"></i>
+
+        </div>
+
+        <div
+            class="stat-value"
+            id="averageATS">
+
+            0%
+
+        </div>
+
+        <div class="stat-label">
+
+            Average ATS Score
+
+        </div>
+
+    </div>
+
+    <!-- Reports -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+        </div>
+
+        <div
+            class="stat-value"
+            id="reportsGenerated">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+
+            Reports Generated
+
+        </div>
+
+    </div>
+
+    <!-- Top Candidate -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-crown"></i>
+
+        </div>
+
+        <div
+            class="stat-value"
+            id="topCandidate">
+
+            --
+
+        </div>
+
+        <div class="stat-label">
+
+            Top Candidate
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Analytics Overview -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        Analytics Overview
+
+    </h2>
+
+    <p class="mt-2">
+
+        Real-time statistics from the Resume Screener database.
+
+    </p>
+
+</div>
+
+<!-- ===================================== -->
+<!-- KPI Cards -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            ATS Performance
+
+        </h3>
+
+        <div class="progress mt-4">
+
+            <div
+                id="atsProgress"
+
+                class="progress-bar"
+
+                style="width:0%;">
+
+            </div>
+
+        </div>
+
+        <h2
+            class="mt-3"
+
+            id="atsPercentage">
+
+            0%
+
+        </h2>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Resume Match
+
+        </h3>
+
+        <div class="progress mt-4">
+
+            <div
+                id="matchProgress"
+
+                class="progress-bar"
+
+                style="width:0%;">
+
+            </div>
+
+        </div>
+
+        <h2
+            class="mt-3"
+
+            id="matchPercentage">
+
+            0%
+
+        </h2>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Skill Confidence
+
+        </h3>
+
+        <div class="progress mt-4">
+
+            <div
+                id="confidenceProgress"
+
+                class="progress-bar"
+
+                style="width:0%;">
+
+            </div>
+
+        </div>
+
+        <h2
+            class="mt-3"
+
+            id="confidencePercentage">
+
+            0%
+
+        </h2>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Charts Section -->
+<!-- ===================================== -->
+
+<div class="chart-grid mt-5">
+
+    <div class="chart-card">
+
+        <h3>
+
+            ATS & Match Analysis
+
+        </h3>
+
+        <div class="chart-box">
+
+            <canvas id="performanceChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="chart-card">
+
+        <h3>
+
+            Resume Distribution
+
+        </h3>
+
+        <div class="chart-box">
+
+            <canvas id="resumeChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Latest Analysis -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-user-check"></i>
+
+        Latest Resume Analysis
+
+    </h2>
+
+    <br>
+
+    <table class="table">
+
+        <tbody>
+
+            <tr>
+
+                <th>
+
+                    Candidate
+
+                </th>
+
+                <td id="latestCandidate">
+
+                    Loading...
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    ATS Score
+
+                </th>
+
+                <td id="latestATS">
+
+                    --
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    Match Score
+
+                </th>
+
+                <td id="latestMatch">
+
+                    --
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    Confidence
+
+                </th>
+
+                <td id="latestConfidence">
+
+                    --
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- ===================================== -->
+<!-- AI Performance Overview -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <!-- ATS Card -->
+
+    <div class="dashboard-card gradient-blue">
+
+        <h3>
+
+            ATS Performance
+
+        </h3>
+
+        <div class="score-circle mt-3">
+
+            <div class="score-inner">
+
+                <h1 id="atsGauge">
+
+                    0
+
+                </h1>
+
+                <span>
+
+                    %
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <p class="text-center mt-3">
+
+            ATS Compatibility
+
+        </p>
+
+    </div>
+
+    <!-- Match Card -->
+
+    <div class="dashboard-card gradient-green">
+
+        <h3>
+
+            Resume Match
+
+        </h3>
+
+        <div class="score-circle mt-3">
+
+            <div class="score-inner">
+
+                <h1 id="matchGauge">
+
+                    0
+
+                </h1>
+
+                <span>
+
+                    %
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <p class="text-center mt-3">
+
+            Job Match Score
+
+        </p>
+
+    </div>
+
+    <!-- Confidence -->
+
+    <div class="dashboard-card gradient-orange">
+
+        <h3>
+
+            Skill Confidence
+
+        </h3>
+
+        <div class="score-circle mt-3">
+
+            <div class="score-inner">
+
+                <h1 id="confidenceGauge">
+
+                    0
+
+                </h1>
+
+                <span>
+
+                    %
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <p class="text-center mt-3">
+
+            AI Confidence
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Candidate Overview -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-user"></i>
+
+        Latest Candidate Overview
+
+    </h2>
+
+    <br>
+
+    <div class="profile-card">
+
+        <div
+            class="profile-avatar"
+            id="candidateAvatar">
+
+            AI
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2 id="candidateName">
+
+                Loading...
+
+            </h2>
+
+            <p>
+
+                Latest analyzed candidate
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Resume Summary -->
+<!-- ===================================== -->
+
+<div class="result-grid mt-5">
+
+    <div class="result-card">
+
+        <h3>
+
+            Skills
+
+        </h3>
+
+        <div
+            id="dashboardSkills"
+            class="mt-3">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+    <div class="result-card">
+
+        <h3>
+
+            Education
+
+        </h3>
+
+        <div
+            id="dashboardEducation"
+            class="mt-3">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Resume Status -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Recommendation
+
+        </h3>
+
+        <div
+            id="dashboardRecommendation"
+
+            class="alert alert-info mt-4">
+
+            Waiting...
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Bias Detection
+
+        </h3>
+
+        <h2
+            id="dashboardBiasScore"
+            class="mt-4">
+
+            0%
+
+        </h2>
+
+        <div class="progress mt-3">
+
+            <div
+
+                id="dashboardBiasProgress"
+
+                class="progress-bar"
+
+                style="width:0%">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Resume Authenticity
+
+        </h3>
+
+        <h2
+            id="dashboardAuthenticity"
+            class="mt-4">
+
+            0%
+
+        </h2>
+
+        <div class="progress mt-3">
+
+            <div
+
+                id="dashboardAuthenticityProgress"
+
+                class="progress-bar"
+
+                style="width:0%">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- AI Score Summary -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Overall AI Evaluation
+
+    </h2>
+
+    <br>
+
+    <div class="widget-progress">
+
+        <span>
+
+            ATS Score
+
+            <strong id="overallATS">
+
+                0%
+
+            </strong>
+
+        </span>
+
+        <div class="progress">
+
+            <div
+
+                id="overallATSBar"
+
+                class="progress-bar"
+
+                style="width:0%">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="widget-progress">
+
+        <span>
+
+            Resume Match
+
+            <strong id="overallMatch">
+
+                0%
+
+            </strong>
+
+        </span>
+
+        <div class="progress">
+
+            <div
+
+                id="overallMatchBar"
+
+                class="progress-bar"
+
+                style="width:0%">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="widget-progress">
+
+        <span>
+
+            Confidence
+
+            <strong id="overallConfidence">
+
+                0%
+
+            </strong>
+
+        </span>
+
+        <div class="progress">
+
+            <div
+
+                id="overallConfidenceBar"
+
+                class="progress-bar"
+
+                style="width:0%">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Resume Quality -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Resume Quality
+
+        </h3>
+
+        <div class="progress mt-3">
+
+            <div
+                id="qualityProgress"
+                class="progress-bar"
+                style="width:0%;">
+
+            </div>
+
+        </div>
+
+        <h2
+            class="mt-3"
+            id="qualityValue">
+
+            0%
+
+        </h2>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Hiring Recommendation
+
+        </h3>
+
+        <div
+            id="hireRecommendation"
+
+            class="alert alert-success mt-4">
+
+            Waiting...
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Candidate Status
+
+        </h3>
+
+        <span
+            id="candidateStatus"
+
+            class="badge badge-warning mt-4">
+
+            Pending
+
+        </span>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Part 3 Starts Below -->
+<!-- ===================================== -->
+
+<!-- ===================================== -->
+<!-- Recent Resume History -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+        Recent Resume Analysis
+
+    </h2>
+
+    <br>
+
+    <div class="table-responsive">
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Candidate</th>
+
+                    <th>ATS</th>
+
+                    <th>Match</th>
+
+                    <th>Status</th>
+
+                    <th>Date</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="historyTable">
+
+                <tr>
+
+                    <td colspan="5" class="text-center">
+
+                        No resume analyzed yet.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Dashboard Widgets -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Resume Quality
+
+        </h3>
+
+        <h1 id="qualityScore">
+
+            0%
+
+        </h1>
+
+        <p>
+
+            Overall Resume Quality
+
+        </p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Hiring Recommendation
+
+        </h3>
+
+        <h1 id="hireStatus">
+
+            --
+
+        </h1>
+
+        <p>
+
+            AI Decision
+
+        </p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Skill Coverage
+
+        </h3>
+
+        <h1 id="skillCoverage">
+
+            0%
+
+        </h1>
+
+        <p>
+
+            Required Skills Matched
+
+        </p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Candidate Rank
+
+        </h3>
+
+        <h1 id="candidateRank">
+
+            #
+
+        </h1>
+
+        <p>
+
+            Ranking Position
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Latest Candidate Skills -->
+<!-- ===================================== -->
+
+<div class="result-grid mt-5">
+
+    <div class="result-card">
+
+        <h2>
+
+            Latest Skills
+
+        </h2>
+
+        <div
+            id="latestSkills"
+            class="skills-list">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+    <div class="result-card">
+
+        <h2>
+
+            Latest Education
+
+        </h2>
+
+        <div
+            id="latestEducation">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- System Health -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-heart-pulse"></i>
+
+        System Health
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                API
+
+            </h4>
+
+            <span
+                class="badge badge-success">
+
+                Running
+
+            </span>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                Database
+
+            </h4>
+
+            <span
+                class="badge badge-success">
+
+                Connected
+
+            </span>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                AI Engine
+
+            </h4>
+
+            <span
+                class="badge badge-success">
+
+                Active
+
+            </span>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>
+
+                Report Generator
+
+            </h4>
+
+            <span
+                class="badge badge-success">
+
+                Ready
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Quick Actions -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Quick Actions
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <a
+            href="/analyze"
+            class="btn btn-primary">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Analyze Resume
+
+        </a>
+
+        <a
+            href="/ranking"
+            class="btn btn-success">
+
+            <i class="fa-solid fa-ranking-star"></i>
+
+            Resume Ranking
+
+        </a>
+
+        <a
+            href="/history"
+            class="btn btn-warning">
+
+            <i class="fa-solid fa-clock"></i>
+
+            View History
+
+        </a>
+
+        <a
+            href="/report"
+            class="btn btn-info">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            Reports
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Dashboard Summary -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        AI Summary
+
+    </h2>
+
+    <br>
+
+    <div
+        id="dashboardSummary"
+        class="alert alert-info">
+
+        Analyze a resume to view AI-generated summary.
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Top Candidate -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        <i class="fa-solid fa-crown"></i>
+
+        Top Candidate
+
+    </h2>
+
+    <br>
+
+    <div class="profile-card">
+
+        <div class="profile-avatar">
+
+            ⭐
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2 id="bestCandidate">
+
+                None
+
+            </h2>
+
+            <p>
+
+                Highest Resume Match Score
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Live Statistics -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid mt-5">
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Today's Analyses
+
+        </h3>
+
+        <h1 id="todayAnalysis">
+
+            0
+
+        </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Average Confidence
+
+        </h3>
+
+        <h1 id="avgConfidence">
+
+            0%
+
+        </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>
+
+            Average Match
+
+        </h3>
+
+        <h1 id="avgMatch">
+
+            0%
+
+        </h1>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Footer Statistics -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Platform Overview
+
+    </h2>
+
+    <br>
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <i class="fa-solid fa-file-lines fa-3x mb-3"></i>
+
+            <h3 id="footerTotalResumes">
+
+                0
+
+            </h3>
+
+            <p>
+
+                Total Resume Analyses
+
+            </p>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <i class="fa-solid fa-chart-simple fa-3x mb-3"></i>
+
+            <h3 id="footerAverageATS">
+
+                0%
+
+            </h3>
+
+            <p>
+
+                Average ATS Score
+
+            </p>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <i class="fa-solid fa-award fa-3x mb-3"></i>
+
+            <h3 id="footerTopCandidate">
+
+                --
+
+            </h3>
+
+            <p>
+
+                Best Candidate
+
+            </p>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <i class="fa-solid fa-file-pdf fa-3x mb-3"></i>
+
+            <h3 id="footerReports">
+
+                0
+
+            </h3>
+
+            <p>
+
+                Reports Generated
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Recent Activity -->
+<!-- ===================================== -->
+
+<div class="card mt-5">
+
+    <h2>
+
+        Recent Activity
+
+    </h2>
+
+    <br>
+
+    <ul class="timeline" id="activityTimeline">
+
+        <li>
+
+            Waiting for activity...
+
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Dashboard Footer -->
+<!-- ===================================== -->
+
+</div>
+
+</main>
+
+{% include 'components/footer.html' %}
+
+<!-- ===================================== -->
+<!-- Chart.js -->
+<!-- ===================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- ===================================== -->
+<!-- JavaScript -->
+<!-- ===================================== -->
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+
+<!-- ===================================== -->
+<!-- Auto Refresh -->
+<!-- ===================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Load dashboard data if available
+    if (typeof loadDashboard === "function") {
+        loadDashboard();
+    }
+
+    // Load charts if available
+    if (typeof loadCharts === "function") {
+        loadCharts();
+    }
+
+    // Refresh every 30 seconds
+    setInterval(function () {
+
+        if (typeof loadDashboard === "function") {
+            loadDashboard();
+        }
+
+        if (typeof loadCharts === "function") {
+            loadCharts();
+        }
+
+    }, 30000);
+
+});
+
+</script>
+
+</body>
+
+</html>
+

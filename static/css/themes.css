@@ -1,0 +1,514 @@
+/* ==========================================================
+   AI Resume Screener
+   themes.css
+   Light & Dark Theme
+   ========================================================== */
+
+/* ===========================
+   Default Theme
+=========================== */
+
+:root{
+
+    --primary:#2563eb;
+    --secondary:#1e40af;
+
+    --success:#10b981;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --info:#06b6d4;
+
+    --background:#f5f7fb;
+    --surface:#ffffff;
+    --surface-2:#f8fafc;
+
+    --text:#111827;
+    --text-light:#6b7280;
+
+    --border:#e5e7eb;
+
+    --shadow:
+    0 10px 25px rgba(0,0,0,.08);
+
+}
+
+/* ==========================================================
+   Body Theme
+========================================================== */
+
+body{
+
+    background:var(--background);
+
+    color:var(--text);
+
+    transition:.35s;
+
+}
+
+/* ==========================================================
+   Dark Theme
+========================================================== */
+
+body.dark{
+
+    --background:#0f172a;
+
+    --surface:#1e293b;
+
+    --surface-2:#334155;
+
+    --text:#f8fafc;
+
+    --text-light:#cbd5e1;
+
+    --border:#475569;
+
+    --shadow:
+    0 15px 35px rgba(0,0,0,.35);
+
+}
+
+/* ==========================================================
+   Background
+========================================================== */
+
+body.dark{
+
+    background:var(--background);
+
+}
+
+/* ==========================================================
+   Navbar
+========================================================== */
+
+body.dark .navbar{
+
+    background:#1e293b;
+
+    color:white;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+/* ==========================================================
+   Sidebar
+========================================================== */
+
+body.dark .sidebar{
+
+    background:#020617;
+
+}
+
+body.dark .sidebar a{
+
+    color:white;
+
+}
+
+body.dark .sidebar a:hover{
+
+    background:#1e293b;
+
+}
+
+/* ==========================================================
+   Cards
+========================================================== */
+
+body.dark .card,
+
+body.dark .dashboard-card,
+
+body.dark .feature-card,
+
+body.dark .report-card,
+
+body.dark .result-card,
+
+body.dark .history-card,
+
+body.dark .score-card,
+
+body.dark .question-card,
+
+body.dark .rank-card{
+
+    background:var(--surface);
+
+    color:var(--text);
+
+}
+
+/* ==========================================================
+   Forms
+========================================================== */
+
+body.dark input,
+
+body.dark textarea,
+
+body.dark select{
+
+    background:#334155;
+
+    color:white;
+
+    border:1px solid var(--border);
+
+}
+
+body.dark input::placeholder,
+
+body.dark textarea::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+/* ==========================================================
+   Upload Box
+========================================================== */
+
+body.dark .upload-box{
+
+    background:#1e293b;
+
+    border-color:#3b82f6;
+
+}
+
+/* ==========================================================
+   Tables
+========================================================== */
+
+body.dark table{
+
+    background:var(--surface);
+
+    color:white;
+
+}
+
+body.dark thead{
+
+    background:#2563eb;
+
+}
+
+body.dark tbody tr{
+
+    border-bottom:1px solid var(--border);
+
+}
+
+body.dark tbody tr:hover{
+
+    background:#334155;
+
+}
+
+/* ==========================================================
+   Footer
+========================================================== */
+
+body.dark .footer{
+
+    background:#020617;
+
+}
+
+/* ==========================================================
+   Hero
+========================================================== */
+
+body.dark .hero{
+
+    color:white;
+
+}
+
+/* ==========================================================
+   Text
+========================================================== */
+
+body.dark p,
+
+body.dark span,
+
+body.dark small{
+
+    color:var(--text-light);
+
+}
+
+/* ==========================================================
+   Buttons
+========================================================== */
+
+body.dark .btn-outline{
+
+    color:white;
+
+    border-color:#3b82f6;
+
+    background:transparent;
+
+}
+
+body.dark .btn-outline:hover{
+
+    background:#2563eb;
+
+}
+
+/* ==========================================================
+   Progress
+========================================================== */
+
+body.dark .progress{
+
+    background:#475569;
+
+}
+
+/* ==========================================================
+   Skill Tags
+========================================================== */
+
+body.dark .skill{
+
+    background:#1d4ed8;
+
+    color:white;
+
+}
+
+/* ==========================================================
+   Alerts
+========================================================== */
+
+body.dark .alert-success{
+
+    background:#14532d;
+
+    color:#dcfce7;
+
+}
+
+body.dark .alert-warning{
+
+    background:#78350f;
+
+    color:#fef3c7;
+
+}
+
+body.dark .alert-danger{
+
+    background:#7f1d1d;
+
+    color:#fee2e2;
+
+}
+
+body.dark .alert-info{
+
+    background:#1e3a8a;
+
+    color:#dbeafe;
+
+}
+
+/* ==========================================================
+   Scrollbar
+========================================================== */
+
+body.dark ::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+body.dark ::-webkit-scrollbar-track{
+
+    background:#1e293b;
+
+}
+
+body.dark ::-webkit-scrollbar-thumb{
+
+    background:#3b82f6;
+
+}
+
+/* ==========================================================
+   Glass Theme
+========================================================== */
+
+.glass{
+
+    background:rgba(255,255,255,.35);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.2);
+
+}
+
+body.dark .glass{
+
+    background:rgba(30,41,59,.45);
+
+}
+
+/* ==========================================================
+   Gradient Cards
+========================================================== */
+
+.gradient-blue{
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color:white;
+
+}
+
+.gradient-green{
+
+    background:linear-gradient(
+        135deg,
+        #10b981,
+        #34d399
+    );
+
+    color:white;
+
+}
+
+.gradient-orange{
+
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #fbbf24
+    );
+
+    color:white;
+
+}
+
+.gradient-red{
+
+    background:linear-gradient(
+        135deg,
+        #ef4444,
+        #f87171
+    );
+
+    color:white;
+
+}
+
+/* ==========================================================
+   Theme Switch
+========================================================== */
+
+.theme-switch{
+
+    width:55px;
+
+    height:28px;
+
+    background:#d1d5db;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    position:relative;
+
+    transition:.3s;
+
+}
+
+.theme-switch::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:22px;
+
+    height:22px;
+
+    border-radius:50%;
+
+    background:white;
+
+    top:3px;
+
+    left:4px;
+
+    transition:.3s;
+
+}
+
+body.dark .theme-switch{
+
+    background:#2563eb;
+
+}
+
+body.dark .theme-switch::before{
+
+    transform:translateX(26px);
+
+}
+
+/* ==========================================================
+   Theme Animation
+========================================================== */
+
+body,
+
+.navbar,
+
+.sidebar,
+
+.card,
+
+.dashboard-card,
+
+.feature-card,
+
+.report-card,
+
+.result-card,
+
+table,
+
+input,
+
+textarea,
+
+button{
+
+    transition:
+
+    background .35s,
+
+    color .35s,
+
+    border .35s,
+
+    box-shadow .35s;
+
+}
